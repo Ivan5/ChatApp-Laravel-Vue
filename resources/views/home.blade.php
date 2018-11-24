@@ -1,0 +1,16 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">We code messanger</div>
+
+                <div class="card-body" ID="app">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
