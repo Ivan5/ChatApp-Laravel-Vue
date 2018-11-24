@@ -1,23 +1,38 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card card-default">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="chat-app">
+        <Conversation :contact="selectedContact" :messages="messages"/>
+        <ContactList :contacts="contacts"/>
     </div>
 </template>
 
 <script>
+import Conversation from './Conversation';
+import ContactList from './ContactList';
     export default {
+        props:{
+            user:{
+                type: Object,
+                required:true
+            }
+        },
+        data(){
+            return{
+                selectedContact:null,
+                messages:[],
+                contacts:[]
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            console.log(this.user);
+            
+            axios.get('/contacts')
+                .then((response) => {
+                    this.contacts = response.data
+                });
+        },
+        components:{
+            Conversation,
+            ContactList
         }
     }
 </script>
