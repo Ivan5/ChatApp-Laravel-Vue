@@ -54,6 +54,11 @@ export default {
         position: relative;
         cursor: pointer;
 
+        &.selected{
+          background: #dfdfdf;
+        }
+
+
         .avatar{
           flex:1;
           display: flex;
@@ -75,7 +80,6 @@ export default {
 
           p{
             margin: 0;
-
             &.name{
               font-weight: bold;
             }
