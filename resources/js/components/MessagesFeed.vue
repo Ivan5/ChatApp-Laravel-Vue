@@ -1,5 +1,5 @@
 <template>
-  <div class="feed">
+  <div class="feed" ref="feed">
     <ul v-if="contact">
       <li v-for="message in messages" :class="`message${message.to == contact.id ? ' sent' : ' received'}`" :key="message.id">
         <div class="text">
@@ -19,6 +19,11 @@ export default {
     messages:{
       type: Array,
       required:true
+    }
+  },
+  methods:{
+    scrollToBottom(){
+      this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
     }
   }
 }

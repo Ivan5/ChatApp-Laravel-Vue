@@ -22,8 +22,16 @@ export default {
   },
   methods:{
     sendMessage(text){
-      console.log(text);
-      
+      if(!this.contact){
+        return;
+      }
+
+      axios.post('/conversation/send', {
+        contact_id: this.contact.id,
+        text: text
+      }).then((response) => {
+        this.$emit('new', response.data)
+      })
     }
   },
   components:{

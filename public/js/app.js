@@ -47412,6 +47412,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.messages = response.data;
                 _this2.selectedContact = contact;
             });
+        },
+        saveNewMessage: function saveNewMessage(text) {
+            this.messages.push(text);
         }
     }
 });
@@ -47429,7 +47432,8 @@ var render = function() {
     { staticClass: "chat-app" },
     [
       _c("Conversation", {
-        attrs: { contact: _vm.selectedContact, messages: _vm.messages }
+        attrs: { contact: _vm.selectedContact, messages: _vm.messages },
+        on: { new: _vm.saveNewMessage }
       }),
       _vm._v(" "),
       _c("ContactList", {
@@ -47854,7 +47858,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     sendMessage: function sendMessage(text) {
-      console.log(text);
+      var _this = this;
+
+      if (!this.contact) {
+        return;
+      }
+
+      axios.post('/conversation/send', {
+        contact_id: this.contact.id,
+        text: text
+      }).then(function (response) {
+        _this.$emit('new', response.data);
+      });
     }
   },
   components: {
@@ -47977,6 +47992,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type: Array,
       required: true
     }
+  },
+  methods: {
+    scrollToBottom: function scrollToBottom() {
+      this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
+    }
   }
 });
 
@@ -48055,7 +48075,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    send: function send() {
+    send: function send(e) {
+      e.preventDefault();
       if (this.message == '') {
         return;
       }
@@ -48510,7 +48531,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "feed" }, [
+  return _c("div", { ref: "feed", staticClass: "feed" }, [
     _vm.contact
       ? _c(
           "ul",
