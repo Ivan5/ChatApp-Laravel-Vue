@@ -23,8 +23,20 @@ export default {
   },
   methods:{
     scrollToBottom(){
-      this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
+      setTimeout(() => {
+        this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
+      },50);
+      
     }
+  },
+  watch:{
+    contact(contact){
+      this.scrollToBottom();
+    },
+    messages(messages){
+      this.scrollToBottom();
+    }
+
   }
 }
 </script>
