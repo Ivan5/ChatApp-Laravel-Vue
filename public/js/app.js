@@ -57590,8 +57590,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.selectedContact = contact;
             });
         },
-        saveNewMessage: function saveNewMessage(text) {
-            this.messages.push(text);
+        saveNewMessage: function saveNewMessage(message) {
+            this.messages.push(message);
         },
         handleInComing: function handleInComing(message) {
             if (this.selectedContact && message.from == this.selectedContact.id) {
@@ -58249,6 +58249,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -58305,7 +58306,13 @@ var render = function() {
               _c("p", { staticClass: "name" }, [_vm._v(_vm._s(contact.name))]),
               _vm._v(" "),
               _c("p", { staticClass: "email" }, [_vm._v(_vm._s(contact.email))])
-            ])
+            ]),
+            _vm._v(" "),
+            contact.unred
+              ? _c("span", { staticClass: "unread" }, [
+                  _vm._v(_vm._s(contact.unread))
+                ])
+              : _vm._e()
           ]
         )
       })

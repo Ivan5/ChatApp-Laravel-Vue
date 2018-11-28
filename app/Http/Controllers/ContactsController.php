@@ -10,12 +10,36 @@ class ContactsController extends Controller
 {
     //
     public function index(){
+        //get all users except the authenticated one
         $contacts = User::where('id','!=',auth()->id())->get();
+
+        $unreadIds = Message::select(\DB::raw('`from` as sender_id, count(`from`) as messages_count'))
+            ->where('to', auth()->id())
+            ->where('read', false)
+            ->groupBy('from')
+            ->get();
+
+        
+        $contacts = $contacts->map(function($contacts) use($unreadIds){
+            $contactUnred = $unreadIds->where('sender_id',$contact->id)->first();
+
+            $contactUnred = $contactUnred ? $contactUnred->messages_count : 0;
+
+            return $contact;
+        });
         return response()->json($contacts);
     }
 
     public function getMessagesFor($id){
         $messages = Message::where('from',$id)->orWhere('to',$id)->get();
+        $messges = Message::where(function($q) use ($id){
+            $q->where('from',auth()->id());
+            $q->where('to', $id);
+        })->orWhere(function($q) use ($id){
+            $q->where('from',$id);
+            $q->where('to', auth()->id());
+        })->get();
+
         return response()->json($messages);
     }
 

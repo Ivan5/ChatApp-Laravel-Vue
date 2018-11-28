@@ -9,6 +9,7 @@
           <p class="name">{{ contact.name }}</p>
           <p class="email">{{ contact.email }}</p>
         </div>
+        <span class="unread" v-if="contact.unred">{{ contact.unread }}</span>
       </li>
     </ul>
   </div>
